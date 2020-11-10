@@ -6,6 +6,6 @@ services:
       context: .
       target: development
     volumes:
-      - .:/app
+      - .:/flask_mega_tutorial
     ports:
       - "5000:5000"

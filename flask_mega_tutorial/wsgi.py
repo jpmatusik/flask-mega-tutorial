@@ -1,8 +1,3 @@
-from flask import Flask
+from flask_mega_tutorial import create_app
 
-app = Flask(__name__)
-
-@app.route('/')
-@app.route('/home')
-def home():
-    return "Hello World"
+app = create_app()
