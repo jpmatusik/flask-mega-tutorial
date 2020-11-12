@@ -3,4 +3,4 @@
 SCRIPT_DIR="$(cd -- "$(dirname -- "$0")" && pwd)"
 BASE_DIR="$(dirname -- "$SCRIPT_DIR")"
 
-isort -v --settings-path "$BASE_DIR/pyproject.toml" "$BASE_DIR"
+isort --settings-path "$BASE_DIR/pyproject.toml" "$BASE_DIR"
