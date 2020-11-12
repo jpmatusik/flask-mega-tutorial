@@ -5,12 +5,13 @@
 <form action="" method="POST">
     {{ form.hidden_tag() }}
     <fieldset>
-        <legend>Register</legend>
-        {{ f.render_field(form.username)|indent }}
-        {{ f.render_field(form.email)|indent }}
-        {{ f.render_field(form.password)|indent }}
-        {{ f.render_field(form.confirm_password)|indent }}
+        <legend>Sign up</legend>
+        {{ f.render_field(form.username) }}
+        {{ f.render_field(form.email) }}
+        {{ f.render_field(form.password) }}
+        {{ f.render_field(form.confirm_password) }}
     </fieldset>
-    {{ form.submit() }}
+    {{ form.submit() }}<br>
+    <small>Already have an account? <a href="{{ url_for('users_bp.login') }}">Sign in</a></small>
 </form>
 {% endblock content %}

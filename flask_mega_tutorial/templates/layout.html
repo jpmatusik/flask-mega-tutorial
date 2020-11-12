@@ -8,19 +8,25 @@
         {% else %}
         <title>Welcome to Microblog!</title>
         {% endif %}
+        <div>
+            <a href="{{ url_for('main_bp.home') }}">Home</a>
+            <a href="{{ url_for('users_bp.login') }}">Login</a>
+            <a href="{{ url_for('users_bp.register') }}">Register</a>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('users_bp.logout') }}">Logout</a>
+            {% endif %}
+        </div>
     </head>
     <body>
         {% with messages =  get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <ul class="flashes">
-                {% for cat, msg in messages %}
-                <li class="{{ cat }}">{{ msg }}</li>
+        {% for cat, msg in messages %}
+            <li class="{{ cat }}">{{ msg }}</li>
         {% endfor %}
         </ul>
         {% endif %}
         {% endwith %}
-        {% filter indent(width=4) %}
-        {%+ block content %}{% endblock content %}
-        {% endfilter %}
+        {% block content %}{% endblock content %}
     </body>
 </html>
