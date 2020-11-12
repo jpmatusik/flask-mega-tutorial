@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% import "macros/form.html" as f %}
+
+{% block content %}
+<form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <fieldset>
+        <legend>Sign in</legend>
+        {{ f.render_field(form.email)|indent }}
+        {{ f.render_field(form.password)|indent }}
+        <p>{{ form.remember_me() }} {{ form.remember_me.label() }}</p>
+    </fieldset>
+    {{ form.submit() }}
+</form>
+{% endblock content %}

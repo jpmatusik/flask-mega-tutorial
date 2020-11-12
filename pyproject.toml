@@ -8,9 +8,15 @@ authors = ["Joe Matusik <jpmatusik@hotmail.com>"]
 python = "^3.8"
 Flask = "^1.1.2"
 Flask-WTF = "~0.14.3"
+Flask-SQLAlchemy = "^2.4.4"
+Flask-Login = "~0.5.0"
+Flask-Bcrypt = "~0.7.1"
+psycopg2 = "^2.8.6"
+email-validator = "^1.1.2"
 
 [tool.poetry.dev-dependencies]
 isort = "^5.6.4"
+Flask-Migrate = "^2.5.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -18,7 +24,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.isort]
 src_paths = ["flask_mega_tutorial"]
-skip_gitignore = true
 line_length = 88
 indent = '    '
 multi_line_output = 3

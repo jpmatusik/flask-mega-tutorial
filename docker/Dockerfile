@@ -16,7 +16,7 @@ FROM base as builder
 
 ENV PATH "$POETRY_HOME/bin:$PATH"
 
-RUN apt-get update && apt-get install --no-install-recommends -y curl
+RUN apt-get update && apt-get install --no-install-recommends -y curl build-essential libpq-dev
 # uses POETRY_VERSION and POETRY_HOME
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - --no-modify-path
 
@@ -32,6 +32,8 @@ FROM base as development
 ENV FLASK_ENV development
 ENV PATH "$POETRY_HOME/bin:$PATH"
 
+RUN apt-get update && apt-get install --no-install-recommends -y libpq5
+
 COPY --from=builder $PROJECT_DIR $PROJECT_DIR
 COPY --from=builder $POETRY_HOME $POETRY_HOME
 COPY --from=builder $VIRTUAL_ENV $VIRTUAL_ENV
@@ -39,11 +41,14 @@ COPY --from=builder $VIRTUAL_ENV $VIRTUAL_ENV
 WORKDIR $PROJECT_DIR
 RUN poetry install --no-root
 
+COPY docker/app-entrypoint.sh /usr/local/bin/app-entrypoint.sh
+COPY docker/migration-entrypoint.sh /usr/local/bin/migration-entrypoint.sh
+RUN chmod +x /usr/local/bin/app-entrypoint.sh && \
+    chmod +x /usr/local/bin/migration-entrypoint.sh
+
 COPY . .
 
-COPY docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["app-entrypoint.sh"]
 CMD ["flask", "run", "-h", "0.0.0.0"]
 
 
@@ -51,11 +56,13 @@ FROM base as production
 
 ENV FLASK_ENV production
 
+RUN apt-get update && apt-get install --no-install-recommends -y libpq5
+
 COPY --from=builder $VIRTUAL_ENV $VIRTUAL_ENV
 COPY flask_mega_tutorial $PROJECT_DIR
 
-COPY docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+COPY docker/app-entrypoint.sh /usr/local/bin/app-entrypoint.sh
+RUN chmod +x /usr/local/bin/app-entrypoint.sh
 WORKDIR /
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["app-entrypoint.sh"]
 CMD ["flask", "run", "-h", "0.0.0.0"]

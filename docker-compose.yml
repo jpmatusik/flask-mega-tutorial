@@ -8,4 +8,14 @@ services:
     volumes:
       - .:/flask_mega_tutorial
     ports:
-      - "5000:5000"
+      - 5000:5000
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:13.0
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+    ports:
+      - 5432:5432

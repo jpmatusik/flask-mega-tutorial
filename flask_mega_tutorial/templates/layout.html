@@ -10,6 +10,17 @@
         {% endif %}
     </head>
     <body>
-        {% block content %}{% endblock content%}
+        {% with messages =  get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class="flashes">
+                {% for cat, msg in messages %}
+                <li class="{{ cat }}">{{ msg }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% filter indent(width=4) %}
+        {%+ block content %}{% endblock content %}
+        {% endfilter %}
     </body>
 </html>
