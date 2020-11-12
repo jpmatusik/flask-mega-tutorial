@@ -32,8 +32,10 @@ def create_app(conf_obj=Config):
         migrate.init_app(app, db)
 
         from flask_mega_tutorial.main.routes import main_bp
+        from flask_mega_tutorial.posts.routes import posts_bp
         from flask_mega_tutorial.users.routes import users_bp
         app.register_blueprint(main_bp)
         app.register_blueprint(users_bp)
+        app.register_blueprint(posts_bp)
 
         return app

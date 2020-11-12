@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, redirect, render_template, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from flask_mega_tutorial import db
@@ -11,13 +11,13 @@ users_bp = Blueprint('users_bp', __name__)
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main_bp.home'))
+    next_page = request.args.get('next')
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            flash('You logged in!', 'success')
-            return redirect(url_for('main_bp.home'))
+            return redirect(next_page or url_for('main_bp.home'))
         flash('Login did not succeed. Verify your email/password and try again.', 'warn')
     return render_template('login.html', title='Login', form=form)
 

@@ -23,7 +23,6 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('This email has been taken. Try another one.')
 
 
-
 class LoginForm(FlaskForm):
     email = StringField('email', validators=[DataRequired(), Email()])
     password = PasswordField('password', validators=[DataRequired()])

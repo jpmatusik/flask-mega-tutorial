@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div>
+    <p>{{ post.body }}</p>
+    <p>Created On: {{ post.created_timestamp.date() }}</p>
+    <p>Author: {{ post.author.username }}</p>
+</div>
+{% endblock content %}
